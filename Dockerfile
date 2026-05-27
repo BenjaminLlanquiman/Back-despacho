@@ -18,6 +18,9 @@ WORKDIR /app
 
 COPY --from=builder /app/target/*.jar app.jar
 
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
 EXPOSE 8081
 
 CMD ["java", "-jar", "app.jar"]

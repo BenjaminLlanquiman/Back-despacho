@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           use_insecure_cipher: true
-        script: |
+          script:
             docker pull ${{ secrets.DOCKER_USERNAME }}/back-despachos:latest
             docker stop back_despachos || true
             docker rm back_despachos || true
