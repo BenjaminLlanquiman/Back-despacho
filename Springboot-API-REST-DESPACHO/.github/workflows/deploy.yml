@@ -33,16 +33,16 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           use_insecure_cipher: true
-          script: |
+        script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/back-despachos:latest
             docker stop back_despachos || true
             docker rm back_despachos || true
             docker run -d \
               --name back_despachos \
-              -p 8081:8081 \
-              -e DB_ENDPOINT=${{ secrets.DB_ENDPOINT }} \
-              -e DB_PORT=${{ secrets.DB_PORT }} \
-              -e DB_NAME=${{ secrets.DB_NAME }} \
-              -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
+              --network host \
+              -e DB_ENDPOINT=localhost \
+              -e DB_PORT=3306 \
+              -e DB_NAME=despachos \
+              -e DB_USERNAME=root \
               -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               ${{ secrets.DOCKER_USERNAME }}/back-despachos:latest
